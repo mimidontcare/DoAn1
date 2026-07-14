@@ -1,0 +1,149 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using BLL;
+using Entities;
+
+namespace GUI
+{
+    public partial class fNhanVien : Form
+    {
+        private NhanVienBLL _bll;
+        public fNhanVien()
+        {
+            InitializeComponent();
+            _bll = new BLL.NhanVienBLL();
+            LoadDGV();
+        }
+
+        private void LoadDGV()
+        {
+            DataTable data = _bll.GetAllNV();
+            dgvNV.DataSource = data;
+        }
+
+        private void btnNV_Back_Click(object sender, EventArgs e)
+        {
+            fTrangChu fTrangChu = new fTrangChu();
+            fTrangChu.ShowDialog();
+            this.Hide();
+        }
+
+ 
+
+        // Sự kiện khi chọn 1 dòng trong DataGridView
+        private void dgvNV_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvNV.SelectedRows.Count > 0)
+            {
+                DataGridViewRow row = dgvNV.SelectedRows[0];
+                txtNV_Ma.Text = row.Cells["MaNV"].Value.ToString();
+                txtNV_Ten.Text = row.Cells["TenNV"].Value.ToString();
+                txtNV_DiaChi.Text = row.Cells["DiaChiNV"].Value.ToString();
+                txtNV_SDT.Text = row.Cells["SDT_NV"].Value.ToString();
+                txtNV_GioiTinh.Text = row.Cells["GioiTinh"].Value.ToString();
+            }
+        }
+
+        private void btnNV_Them_Click(object sender, EventArgs e)
+        {
+            // Khởi tạo đối tượng NhanVien mới
+            var newNhanVien = new NhanVien
+            {
+                MaNV = txtNV_Ma.Text, // Nhập từ textbox MaNV
+                TenNV = txtNV_Ten.Text, // Nhập từ textbox TenNV
+                DiaChi_NV = txtNV_DiaChi.Text, // Nhập từ textbox DiaChiNV
+                SDT_NV = txtNV_SDT.Text, // Nhập từ textbox SDT_NV
+                GioiTinh = txtNV_GioiTinh.Text // Nhập từ textbox GioiTinh
+            };
+
+            // Thêm nhân viên thông qua BLL
+            bool isAdded = _bll.AddNhanVien(newNhanVien);
+            if (isAdded)
+            {
+                MessageBox.Show("Thêm nhân viên thành công!");
+                LoadDGV(); // Tải lại DataGridView
+            }
+            else
+            {
+                MessageBox.Show("Thêm nhân viên thất bại!");
+            }
+        }
+
+        private void btnNV_Xoa_Click(object sender, EventArgs e)
+        {
+            // Lấy mã nhân viên từ textbox
+            string maNV = txtNV_Ma.Text;
+
+            // Kiểm tra nếu mã nhân viên không rỗng
+            if (!string.IsNullOrEmpty(maNV))
+            {
+                // Gọi phương thức xóa nhân viên từ BLL
+                bool isDeleted = _bll.DeleteNhanVien(maNV);
+
+                // Kiểm tra kết quả xóa và hiển thị thông báo tương ứng
+                if (isDeleted)
+                {
+                    MessageBox.Show("Xóa nhân viên thành công!");
+                    LoadDGV(); // Tải lại dữ liệu trong DataGridView sau khi xóa
+                }
+                else
+                {
+                    MessageBox.Show("Xóa nhân viên thất bại!");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng nhập mã nhân viên cần xóa.");
+            }
+        }
+
+        private void btnNV_Sua_Click(object sender, EventArgs e)
+        {
+            // Lấy thông tin từ các textbox trên form
+            string maNV = txtNV_Ma.Text;  // Mã nhân viên cần sửa
+            string tenNV = txtNV_Ten.Text;  // Tên nhân viên mới
+            string diaChiNV = txtNV_DiaChi.Text;  // Địa chỉ mới
+            string sdtNV = txtNV_SDT.Text;  // Số điện thoại mới
+            string gioiTinh = txtNV_GioiTinh.Text;  // Giới tính mới
+
+            // Kiểm tra xem mã nhân viên có hợp lệ không
+            if (string.IsNullOrEmpty(maNV))
+            {
+                MessageBox.Show("Vui lòng nhập mã nhân viên.");
+                return;
+            }
+
+            // Khởi tạo đối tượng NhanVien với thông tin mới
+            var updatedNhanVien = new NhanVien
+            {
+                MaNV = maNV,
+                TenNV = tenNV,
+                DiaChi_NV = diaChiNV,
+                SDT_NV = sdtNV,
+                GioiTinh = gioiTinh
+            };
+
+            // Gọi phương thức sửa nhân viên từ BLL
+            bool isUpdated = _bll.UpdateNhanVien(updatedNhanVien);
+
+            // Hiển thị thông báo sau khi thực hiện
+            if (isUpdated)
+            {
+                MessageBox.Show("Cập nhật nhân viên thành công!");
+                LoadDGV();  // Tải lại dữ liệu trong DataGridView
+            }
+            else
+            {
+                MessageBox.Show("Cập nhật nhân viên thất bại!");
+            }
+        }
+
+    }
+}

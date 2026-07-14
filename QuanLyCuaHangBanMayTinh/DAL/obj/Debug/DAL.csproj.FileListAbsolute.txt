@@ -1,0 +1,9 @@
+F:\Project1\QuanLyCuaHangBanMayTinh\DAL\bin\Debug\DAL.dll
+F:\Project1\QuanLyCuaHangBanMayTinh\DAL\bin\Debug\DAL.pdb
+F:\Project1\QuanLyCuaHangBanMayTinh\DAL\bin\Debug\Entities.dll
+F:\Project1\QuanLyCuaHangBanMayTinh\DAL\bin\Debug\Entities.pdb
+F:\Project1\QuanLyCuaHangBanMayTinh\DAL\obj\Debug\DAL.csproj.AssemblyReference.cache
+F:\Project1\QuanLyCuaHangBanMayTinh\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
+F:\Project1\QuanLyCuaHangBanMayTinh\DAL\obj\Debug\DAL.csproj.Up2Date
+F:\Project1\QuanLyCuaHangBanMayTinh\DAL\obj\Debug\DAL.dll
+F:\Project1\QuanLyCuaHangBanMayTinh\DAL\obj\Debug\DAL.pdb
