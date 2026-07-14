@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -33,8 +33,15 @@ namespace DAL
         {
             try
             {
-                string query = $"INSERT INTO CHITIETDONDATHANG (MaDonDatHang, MaMT, SoLuong, GiaBan) VALUES ('{maDonDatHang}', '{maMT}', {soLuong}, {giaBan})";
-                return _provider.ExecuteNonQuery(query) > 0;
+                string query = "INSERT INTO CHITIETDONDATHANG (MaDonDatHang, MaMT, SoLuong, GiaBan) VALUES (@MaDonDatHang, @MaMT, @SoLuong, @GiaBan)";
+                var parameters = new Dictionary<string, object>
+                {
+                    { "@MaDonDatHang", maDonDatHang },
+                    { "@MaMT", maMT },
+                    { "@SoLuong", soLuong },
+                    { "@GiaBan", giaBan }
+                };
+                return _provider.ExecuteNonQuery(query, parameters) > 0;
             }
             catch (Exception ex)
             {
@@ -46,8 +53,13 @@ namespace DAL
         {
             try
             {
-                string query = $"DELETE FROM CHITIETDONDATHANG WHERE MaDonDatHang = '{maDonDatHang}' AND MaMT = '{maMT}'";
-                return _provider.ExecuteNonQuery(query) > 0;
+                string query = "DELETE FROM CHITIETDONDATHANG WHERE MaDonDatHang = @MaDonDatHang AND MaMT = @MaMT";
+                var parameters = new Dictionary<string, object>
+                {
+                    { "@MaDonDatHang", maDonDatHang },
+                    { "@MaMT", maMT }
+                };
+                return _provider.ExecuteNonQuery(query, parameters) > 0;
             }
             catch (Exception ex)
             {
@@ -59,8 +71,15 @@ namespace DAL
         {
             try
             {
-                string query = $"UPDATE CHITIETDONDATHANG SET SoLuong = {soLuong}, GiaBan = {giaBan} WHERE MaDonDatHang = '{maDonDatHang}' AND MaMT = '{maMT}'";
-                return _provider.ExecuteNonQuery(query) > 0;
+                string query = "UPDATE CHITIETDONDATHANG SET SoLuong = @SoLuong, GiaBan = @GiaBan WHERE MaDonDatHang = @MaDonDatHang AND MaMT = @MaMT";
+                var parameters = new Dictionary<string, object>
+                {
+                    { "@MaDonDatHang", maDonDatHang },
+                    { "@MaMT", maMT },
+                    { "@SoLuong", soLuong },
+                    { "@GiaBan", giaBan }
+                };
+                return _provider.ExecuteNonQuery(query, parameters) > 0;
             }
             catch (Exception ex)
             {
@@ -72,13 +91,22 @@ namespace DAL
         {
             try
             {
-                string query = $"SELECT * FROM CHITIETDONDATHANG WHERE MaDonDatHang LIKE '%{keyword}%' OR MaMT LIKE '%{keyword}%'";
-                return _provider.ExecuteQuery(query);
+                string query = "SELECT * FROM CHITIETDONDATHANG WHERE MaDonDatHang LIKE @Keyword OR MaMT LIKE @Keyword";
+                var parameters = new Dictionary<string, object>
+                {
+                    { "@Keyword", "%" + keyword + "%" }
+                };
+                return _provider.ExecuteQuery(query, parameters);
             }
             catch (Exception ex)
             {
                 throw new Exception("Lỗi khi tìm kiếm chi tiết đơn đặt hàng: " + ex.Message);
             }
+        }
+
+        public DataTable ExecuteQuery(string query, Dictionary<string, object> parameters = null)
+        {
+            return _provider.ExecuteQuery(query, parameters);
         }
     }
 }

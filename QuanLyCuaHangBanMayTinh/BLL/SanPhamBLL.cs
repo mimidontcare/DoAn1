@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -34,6 +34,37 @@ namespace BLL
         {
             try
             {
+                // Kiểm tra dữ liệu trống
+                if (string.IsNullOrWhiteSpace(sp.MaSP) ||
+                    string.IsNullOrWhiteSpace(sp.TenSP) ||
+                    string.IsNullOrWhiteSpace(sp.MaNCC))
+                {
+                    return (false, "Vui lòng điền đầy đủ thông tin sản phẩm!");
+                }
+
+                // Kiểm tra mã sản phẩm đã tồn tại
+                if (_dal.CheckMaSPExists(sp.MaSP))
+                {
+                    return (false, "Mã sản phẩm đã tồn tại!");
+                }
+
+                // Kiểm tra nhà cung cấp có tồn tại
+                if (!_dal.CheckNhaCCExists(sp.MaNCC))
+                {
+                    return (false, "Mã nhà cung cấp không tồn tại!");
+                }
+
+                // Kiểm tra giá và số lượng
+                if (sp.DonGia <= 0)
+                {
+                    return (false, "Đơn giá phải lớn hơn 0!");
+                }
+
+                if (sp.SoLuong < 0)
+                {
+                    return (false, "Số lượng không được âm!");
+                }
+
                 bool result = _dal.AddSanPham(sp);
                 if (result)
                 {
@@ -51,6 +82,18 @@ namespace BLL
         {
             try
             {
+                // Kiểm tra mã sản phẩm trống
+                if (string.IsNullOrWhiteSpace(maSP))
+                {
+                    return (false, "Mã sản phẩm không được để trống!");
+                }
+
+                // Kiểm tra mã sản phẩm tồn tại
+                if (!_dal.CheckMaSPExists(maSP))
+                {
+                    return (false, "Mã sản phẩm không tồn tại!");
+                }
+
                 bool result = _dal.DeleteSanPham(maSP);
                 if (result)
                 {
@@ -68,6 +111,37 @@ namespace BLL
         {
             try
             {
+                // Kiểm tra dữ liệu trống
+                if (string.IsNullOrWhiteSpace(sp.MaSP) ||
+                    string.IsNullOrWhiteSpace(sp.TenSP) ||
+                    string.IsNullOrWhiteSpace(sp.MaNCC))
+                {
+                    return (false, "Vui lòng điền đầy đủ thông tin sản phẩm!");
+                }
+
+                // Kiểm tra mã sản phẩm tồn tại
+                if (!_dal.CheckMaSPExists(sp.MaSP))
+                {
+                    return (false, "Mã sản phẩm không tồn tại!");
+                }
+
+                // Kiểm tra nhà cung cấp có tồn tại
+                if (!_dal.CheckNhaCCExists(sp.MaNCC))
+                {
+                    return (false, "Mã nhà cung cấp không tồn tại!");
+                }
+
+                // Kiểm tra giá và số lượng
+                if (sp.DonGia <= 0)
+                {
+                    return (false, "Đơn giá phải lớn hơn 0!");
+                }
+
+                if (sp.SoLuong < 0)
+                {
+                    return (false, "Số lượng không được âm!");
+                }
+
                 bool result = _dal.UpdateSanPham(sp);
                 if (result)
                 {

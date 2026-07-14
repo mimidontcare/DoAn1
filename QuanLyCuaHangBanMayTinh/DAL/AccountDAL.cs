@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,8 +17,13 @@ namespace DAL
 
         public bool CheckLogin(string userName, string passWord)
         {
-            string query = $"select * from TAIKHOAN where TenDangNhap = '{userName}' AND MatKhau = '{passWord}'";
-            return _dataProvider.ExecuteQuery(query).Rows.Count > 0;
+            string query = "select * from TAIKHOAN where TenDangNhap = @TenDangNhap AND MatKhau = @MatKhau";
+            var parameters = new Dictionary<string, object>
+            {
+                { "@TenDangNhap", userName },
+                { "@MatKhau", passWord }
+            };
+            return _dataProvider.ExecuteQuery(query, parameters).Rows.Count > 0;
         }
     }
 }

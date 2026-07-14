@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -49,6 +49,44 @@ namespace DAL
             }
         }
 
+        // Lấy số lượng tồn kho hiện tại
+        public int GetProductStock(string maSP)
+        {
+            try
+            {
+                string query = "SELECT SoLuongMT FROM MAYTINH WHERE MaMT = @MaMT";
+                var parameters = new Dictionary<string, object>
+                {
+                    { "@MaMT", maSP }
+                };
+                object result = _provider.ExecuteScalar(query, parameters);
+                return result != null && result != DBNull.Value ? Convert.ToInt32(result) : 0;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi lấy số lượng tồn kho: " + ex.Message);
+            }
+        }
+
+        // Cập nhật tồn kho (cộng hoặc trừ)
+        public bool UpdateStock(string maSP, int changeAmount)
+        {
+            try
+            {
+                string query = "UPDATE MAYTINH SET SoLuongMT = SoLuongMT + @ChangeAmount WHERE MaMT = @MaMT";
+                var parameters = new Dictionary<string, object>
+                {
+                    { "@MaMT", maSP },
+                    { "@ChangeAmount", changeAmount }
+                };
+                return _provider.ExecuteNonQuery(query, parameters) > 0;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi cập nhật tồn kho: " + ex.Message);
+            }
+        }
+
         // Kiểm tra sự tồn tại của nhà cung cấp
         public bool CheckNhaCCExists(string maNCC)
         {
@@ -73,37 +111,6 @@ namespace DAL
         {
             try
             {
-                // Kiểm tra dữ liệu trống
-                if (string.IsNullOrWhiteSpace(sp.MaSP) ||
-                    string.IsNullOrWhiteSpace(sp.TenSP) ||
-                    string.IsNullOrWhiteSpace(sp.MaNCC))
-                {
-                    throw new Exception("Vui lòng điền đầy đủ thông tin sản phẩm!");
-                }
-
-                // Kiểm tra mã sản phẩm đã tồn tại
-                if (CheckMaSPExists(sp.MaSP))
-                {
-                    throw new Exception("Mã sản phẩm đã tồn tại!");
-                }
-
-                // Kiểm tra nhà cung cấp có tồn tại
-                if (!CheckNhaCCExists(sp.MaNCC))
-                {
-                    throw new Exception("Mã nhà cung cấp không tồn tại!");
-                }
-
-                // Kiểm tra giá và số lượng
-                if (sp.DonGia <= 0)
-                {
-                    throw new Exception("Đơn giá phải lớn hơn 0!");
-                }
-
-                if (sp.SoLuong < 0)
-                {
-                    throw new Exception("Số lượng không được âm!");
-                }
-
                 string query = "INSERT INTO MAYTINH (MaMT, TenMT, GiaMT, MaNCC, SoLuongMT) VALUES (@MaMT, @TenMT, @GiaMT, @MaNCC, @SoLuongMT)";
 
                 var parameters = new Dictionary<string, object>
@@ -128,18 +135,6 @@ namespace DAL
         {
             try
             {
-                // Kiểm tra mã sản phẩm trống
-                if (string.IsNullOrWhiteSpace(maSP))
-                {
-                    throw new Exception("Mã sản phẩm không được để trống!");
-                }
-
-                // Kiểm tra mã sản phẩm tồn tại
-                if (!CheckMaSPExists(maSP))
-                {
-                    throw new Exception("Mã sản phẩm không tồn tại!");
-                }
-
                 string query = "DELETE FROM MAYTINH WHERE MaMT = @MaMT";
                 var parameters = new Dictionary<string, object>
                 {
@@ -159,37 +154,6 @@ namespace DAL
         {
             try
             {
-                // Kiểm tra dữ liệu trống
-                if (string.IsNullOrWhiteSpace(sp.MaSP) ||
-                    string.IsNullOrWhiteSpace(sp.TenSP) ||
-                    string.IsNullOrWhiteSpace(sp.MaNCC))
-                {
-                    throw new Exception("Vui lòng điền đầy đủ thông tin sản phẩm!");
-                }
-
-                // Kiểm tra mã sản phẩm tồn tại
-                if (!CheckMaSPExists(sp.MaSP))
-                {
-                    throw new Exception("Mã sản phẩm không tồn tại!");
-                }
-
-                // Kiểm tra nhà cung cấp có tồn tại
-                if (!CheckNhaCCExists(sp.MaNCC))
-                {
-                    throw new Exception("Mã nhà cung cấp không tồn tại!");
-                }
-
-                // Kiểm tra giá và số lượng
-                if (sp.DonGia <= 0)
-                {
-                    throw new Exception("Đơn giá phải lớn hơn 0!");
-                }
-
-                if (sp.SoLuong < 0)
-                {
-                    throw new Exception("Số lượng không được âm!");
-                }
-
                 string query = "UPDATE MAYTINH SET TenMT = @TenMT, GiaMT = @GiaMT, MaNCC = @MaNCC, SoLuongMT = @SoLuongMT WHERE MaMT = @MaMT";
 
                 var parameters = new Dictionary<string, object>
@@ -215,8 +179,12 @@ namespace DAL
         {
             try
             {
-                string query = "SELECT * FROM MAYTINH WHERE MaMT LIKE N'%" + maSP + "%'";
-                return _provider.ExecuteQuery(query);
+                string query = "SELECT * FROM MAYTINH WHERE MaMT LIKE @MaMT";
+                var parameters = new Dictionary<string, object>
+                {
+                    { "@MaMT", "%" + maSP + "%" }
+                };
+                return _provider.ExecuteQuery(query, parameters);
             }
             catch (Exception)
             {

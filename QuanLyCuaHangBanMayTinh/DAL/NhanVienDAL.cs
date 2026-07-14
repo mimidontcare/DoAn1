@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -35,39 +35,11 @@ namespace DAL
             return count > 0;
         }
 
-        // Thêm nhân viên với kiểm tra dữ liệu
+        // Thêm nhân viên
         public bool AddNhanVien(NhanVien nv)
         {
             try
             {
-                // Kiểm tra dữ liệu trống
-                if (string.IsNullOrWhiteSpace(nv.MaNV) ||
-                    string.IsNullOrWhiteSpace(nv.TenNV) ||
-                    string.IsNullOrWhiteSpace(nv.DiaChi_NV) ||
-                    string.IsNullOrWhiteSpace(nv.SDT_NV) ||
-                    string.IsNullOrWhiteSpace(nv.GioiTinh))
-                {
-                    throw new Exception("Vui lòng điền đầy đủ thông tin nhân viên!");
-                }
-
-                // Kiểm tra mã nhân viên đã tồn tại
-                if (CheckMaNVExists(nv.MaNV))
-                {
-                    throw new Exception("Mã nhân viên đã tồn tại!");
-                }
-
-                // Kiểm tra định dạng số điện thoại
-                if (!System.Text.RegularExpressions.Regex.IsMatch(nv.SDT_NV, @"^[0-9]{10}$"))
-                {
-                    throw new Exception("Số điện thoại không hợp lệ! Vui lòng nhập 10 chữ số.");
-                }
-
-                // Kiểm tra giới tính
-                if (nv.GioiTinh.ToLower() != "nam" && nv.GioiTinh.ToLower() != "nữ")
-                {
-                    throw new Exception("Giới tính không hợp lệ! Chỉ chấp nhận 'Nam' hoặc 'Nữ'.");
-                }
-
                 string query = "INSERT INTO NHANVIEN (MaNV, TenNV, DiaChiNV, SDT_NV, GioiTinh) VALUES (@MaNV, @TenNV, @DiaChiNV, @SDT_NV, @GioiTinh)";
 
                 var parameters = new Dictionary<string, object>
@@ -88,39 +60,11 @@ namespace DAL
             }
         }
 
-        // Cập nhật nhân viên với kiểm tra dữ liệu
+        // Cập nhật nhân viên
         public bool UpdateNhanVien(NhanVien nv)
         {
             try
             {
-                // Kiểm tra dữ liệu trống
-                if (string.IsNullOrWhiteSpace(nv.MaNV) ||
-                    string.IsNullOrWhiteSpace(nv.TenNV) ||
-                    string.IsNullOrWhiteSpace(nv.DiaChi_NV) ||
-                    string.IsNullOrWhiteSpace(nv.SDT_NV) ||
-                    string.IsNullOrWhiteSpace(nv.GioiTinh))
-                {
-                    throw new Exception("Vui lòng điền đầy đủ thông tin nhân viên!");
-                }
-
-                // Kiểm tra mã nhân viên tồn tại
-                if (!CheckMaNVExists(nv.MaNV))
-                {
-                    throw new Exception("Mã nhân viên không tồn tại!");
-                }
-
-                // Kiểm tra định dạng số điện thoại
-                if (!System.Text.RegularExpressions.Regex.IsMatch(nv.SDT_NV, @"^[0-9]{10}$"))
-                {
-                    throw new Exception("Số điện thoại không hợp lệ! Vui lòng nhập 10 chữ số.");
-                }
-
-                // Kiểm tra giới tính
-                if (nv.GioiTinh.ToLower() != "nam" && nv.GioiTinh.ToLower() != "nữ")
-                {
-                    throw new Exception("Giới tính không hợp lệ! Chỉ chấp nhận 'Nam' hoặc 'Nữ'.");
-                }
-
                 string query = "UPDATE NHANVIEN SET TenNV = @TenNV, DiaChiNV = @DiaChiNV, SDT_NV = @SDT_NV, GioiTinh = @GioiTinh WHERE MaNV = @MaNV";
 
                 var parameters = new Dictionary<string, object>
@@ -141,23 +85,11 @@ namespace DAL
             }
         }
 
-        // Xóa nhân viên với kiểm tra dữ liệu
+        // Xóa nhân viên
         public bool DeleteNhanVien(string maNV)
         {
             try
             {
-                // Kiểm tra mã nhân viên trống
-                if (string.IsNullOrWhiteSpace(maNV))
-                {
-                    throw new Exception("Mã nhân viên không được để trống!");
-                }
-
-                // Kiểm tra mã nhân viên tồn tại
-                if (!CheckMaNVExists(maNV))
-                {
-                    throw new Exception("Mã nhân viên không tồn tại!");
-                }
-
                 string query = "DELETE FROM NHANVIEN WHERE MaNV = @MaNV";
                 var parameters = new Dictionary<string, object>
                 {
@@ -178,8 +110,12 @@ namespace DAL
         {
             try
             {
-                string query = "SELECT * FROM NHANVIEN WHERE MaNV LIKE N'%" + maNV + "%'";
-                return _provider.ExecuteQuery(query);
+                string query = "SELECT * FROM NHANVIEN WHERE MaNV LIKE @MaNV";
+                var parameters = new Dictionary<string, object>
+                {
+                    { "@MaNV", "%" + maNV + "%" }
+                };
+                return _provider.ExecuteQuery(query, parameters);
             }
             catch (Exception)
             {

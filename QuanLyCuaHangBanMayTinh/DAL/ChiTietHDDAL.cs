@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -33,8 +33,12 @@ namespace DAL
         {
             try
             {
-                string query = $"SELECT * FROM ChiTietHDB WHERE MaHDB = '{id}'";
-                return _provider.ExecuteQuery(query);
+                string query = "SELECT * FROM ChiTietHDB WHERE MaHDB = @MaHDB";
+                var parameters = new Dictionary<string, object>
+                {
+                    { "@MaHDB", id }
+                };
+                return _provider.ExecuteQuery(query, parameters);
             }
             catch (Exception ex)
             {
@@ -44,6 +48,7 @@ namespace DAL
 
         public bool CheckMaCTHDExists(string maHDB)
         {
+            try
             {
                 string query = "SELECT COUNT(*) FROM ChiTietHDB WHERE MaHDB = @MaHDB";
                 var parameters = new Dictionary<string, object>
@@ -53,7 +58,10 @@ namespace DAL
 
                 int count = Convert.ToInt32(_provider.ExecuteScalar(query, parameters));
                 return count > 0;
-
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi kiểm tra mã chi tiết hóa đơn: " + ex.Message);
             }
         }
 
@@ -94,9 +102,9 @@ namespace DAL
             return _provider.ExecuteNonQuery(query, parameters) > 0;
         }
 
-        public DataTable ExecuteQuery(string query)
+        public DataTable ExecuteQuery(string query, Dictionary<string, object> parameters = null)
         {
-            return _provider.ExecuteQuery(query);
+            return _provider.ExecuteQuery(query, parameters);
         }
     }
 }

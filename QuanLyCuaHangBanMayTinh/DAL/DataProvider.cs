@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -10,11 +11,11 @@ namespace DAL
 
         public DataProvider()
         {
-            _connectionString = @"Data Source=TMPAD;Initial Catalog=QL_DoAn1;Integrated Security=True;TrustServerCertificate=True";
+            _connectionString = ConfigurationManager.ConnectionStrings["QL_DoAn1"].ConnectionString;
         }
 
         // Thực thi câu truy vấn trả về kết quả (SELECT)
-        public DataTable ExecuteQuery(string query)
+        public DataTable ExecuteQuery(string query, Dictionary<string, object> parameters = null)
         {
             DataTable dataTable = new DataTable();
 
@@ -23,6 +24,13 @@ namespace DAL
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
+                    if (parameters != null)
+                    {
+                        foreach (var parameter in parameters)
+                        {
+                            command.Parameters.AddWithValue(parameter.Key, parameter.Value);
+                        }
+                    }
                     using (SqlDataAdapter adapter = new SqlDataAdapter(command))
                     {
                         adapter.Fill(dataTable);

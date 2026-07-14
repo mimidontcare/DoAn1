@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -34,6 +34,34 @@ namespace BLL
         {
             try
             {
+                // Kiểm tra dữ liệu trống
+                if (string.IsNullOrWhiteSpace(nv.MaNV) ||
+                    string.IsNullOrWhiteSpace(nv.TenNV) ||
+                    string.IsNullOrWhiteSpace(nv.DiaChi_NV) ||
+                    string.IsNullOrWhiteSpace(nv.SDT_NV) ||
+                    string.IsNullOrWhiteSpace(nv.GioiTinh))
+                {
+                    return (false, "Vui lòng điền đầy đủ thông tin nhân viên!");
+                }
+
+                // Kiểm tra mã nhân viên đã tồn tại
+                if (_dal.CheckMaNVExists(nv.MaNV))
+                {
+                    return (false, "Mã nhân viên đã tồn tại!");
+                }
+
+                // Kiểm tra định dạng số điện thoại
+                if (!System.Text.RegularExpressions.Regex.IsMatch(nv.SDT_NV, @"^[0-9]{10}$"))
+                {
+                    return (false, "Số điện thoại không hợp lệ! Vui lòng nhập 10 chữ số.");
+                }
+
+                // Kiểm tra giới tính
+                if (nv.GioiTinh.ToLower() != "nam" && nv.GioiTinh.ToLower() != "nữ")
+                {
+                    return (false, "Giới tính không hợp lệ! Chỉ chấp nhận 'Nam' hoặc 'Nữ'.");
+                }
+
                 bool result = _dal.AddNhanVien(nv);
                 if (result)
                 {
@@ -51,6 +79,18 @@ namespace BLL
         {
             try
             {
+                // Kiểm tra mã nhân viên trống
+                if (string.IsNullOrWhiteSpace(maNV))
+                {
+                    return (false, "Mã nhân viên không được để trống!");
+                }
+
+                // Kiểm tra mã nhân viên tồn tại
+                if (!_dal.CheckMaNVExists(maNV))
+                {
+                    return (false, "Mã nhân viên không tồn tại!");
+                }
+
                 bool result = _dal.DeleteNhanVien(maNV);
                 if (result)
                 {
@@ -68,6 +108,34 @@ namespace BLL
         {
             try
             {
+                // Kiểm tra dữ liệu trống
+                if (string.IsNullOrWhiteSpace(nv.MaNV) ||
+                    string.IsNullOrWhiteSpace(nv.TenNV) ||
+                    string.IsNullOrWhiteSpace(nv.DiaChi_NV) ||
+                    string.IsNullOrWhiteSpace(nv.SDT_NV) ||
+                    string.IsNullOrWhiteSpace(nv.GioiTinh))
+                {
+                    return (false, "Vui lòng điền đầy đủ thông tin nhân viên!");
+                }
+
+                // Kiểm tra mã nhân viên tồn tại
+                if (!_dal.CheckMaNVExists(nv.MaNV))
+                {
+                    return (false, "Mã nhân viên không tồn tại!");
+                }
+
+                // Kiểm tra định dạng số điện thoại
+                if (!System.Text.RegularExpressions.Regex.IsMatch(nv.SDT_NV, @"^[0-9]{10}$"))
+                {
+                    return (false, "Số điện thoại không hợp lệ! Vui lòng nhập 10 chữ số.");
+                }
+
+                // Kiểm tra giới tính
+                if (nv.GioiTinh.ToLower() != "nam" && nv.GioiTinh.ToLower() != "nữ")
+                {
+                    return (false, "Giới tính không hợp lệ! Chỉ chấp nhận 'Nam' hoặc 'Nữ'.");
+                }
+
                 bool result = _dal.UpdateNhanVien(nv);
                 if (result)
                 {
