@@ -1,4 +1,4 @@
-﻿using BLL;
+using BLL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -51,9 +51,11 @@ namespace GUI
 
         private void btnHD_Back_Click(object sender, EventArgs e)
         {
-            fTrangChu fTrangChu = new fTrangChu();
-            fTrangChu.Show();
             this.Hide();
+            if (this.Owner != null)
+            {
+                this.Owner.Show();
+            }
         }
 
         private void btnHD_Them_Click(object sender, EventArgs e)

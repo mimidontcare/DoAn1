@@ -20,12 +20,12 @@ namespace DAL
         {
             try
             {
-                string query = "SELECT * FROM CHITIETDONDATHANG";
+                string query = "SELECT * FROM CHITIETNHAPHANG";
                 return _provider.ExecuteQuery(query);
             }
             catch (Exception ex)
             {
-                throw new Exception("Lỗi khi lấy danh sách chi tiết đơn đặt hàng: " + ex.Message);
+                throw new Exception("Lỗi khi lấy danh sách chi tiết: " + ex.Message);
             }
         }
 
@@ -33,19 +33,19 @@ namespace DAL
         {
             try
             {
-                string query = "INSERT INTO CHITIETDONDATHANG (MaDonDatHang, MaMT, SoLuong, GiaBan) VALUES (@MaDonDatHang, @MaMT, @SoLuong, @GiaBan)";
+                string query = "INSERT INTO CHITIETNHAPHANG (MaPhieu, MaMT, SoLuongNhap, DonGiaNhap) VALUES (@MaPhieu, @MaMT, @SoLuongNhap, @DonGiaNhap)";
                 var parameters = new Dictionary<string, object>
                 {
-                    { "@MaDonDatHang", maDonDatHang },
+                    { "@MaPhieu", maDonDatHang },
                     { "@MaMT", maMT },
-                    { "@SoLuong", soLuong },
-                    { "@GiaBan", giaBan }
+                    { "@SoLuongNhap", soLuong },
+                    { "@DonGiaNhap", giaBan }
                 };
                 return _provider.ExecuteNonQuery(query, parameters) > 0;
             }
             catch (Exception ex)
             {
-                throw new Exception("Lỗi khi thêm chi tiết đơn đặt hàng: " + ex.Message);
+                throw new Exception("Lỗi khi thêm chi tiết: " + ex.Message);
             }
         }
 
@@ -53,17 +53,17 @@ namespace DAL
         {
             try
             {
-                string query = "DELETE FROM CHITIETDONDATHANG WHERE MaDonDatHang = @MaDonDatHang AND MaMT = @MaMT";
+                string query = "DELETE FROM CHITIETNHAPHANG WHERE MaPhieu = @MaPhieu AND MaMT = @MaMT";
                 var parameters = new Dictionary<string, object>
                 {
-                    { "@MaDonDatHang", maDonDatHang },
+                    { "@MaPhieu", maDonDatHang },
                     { "@MaMT", maMT }
                 };
                 return _provider.ExecuteNonQuery(query, parameters) > 0;
             }
             catch (Exception ex)
             {
-                throw new Exception("Lỗi khi xóa chi tiết đơn đặt hàng: " + ex.Message);
+                throw new Exception("Lỗi khi xóa chi tiết: " + ex.Message);
             }
         }
 
@@ -71,19 +71,19 @@ namespace DAL
         {
             try
             {
-                string query = "UPDATE CHITIETDONDATHANG SET SoLuong = @SoLuong, GiaBan = @GiaBan WHERE MaDonDatHang = @MaDonDatHang AND MaMT = @MaMT";
+                string query = "UPDATE CHITIETNHAPHANG SET SoLuongNhap = @SoLuongNhap, DonGiaNhap = @DonGiaNhap WHERE MaPhieu = @MaPhieu AND MaMT = @MaMT";
                 var parameters = new Dictionary<string, object>
                 {
-                    { "@MaDonDatHang", maDonDatHang },
+                    { "@MaPhieu", maDonDatHang },
                     { "@MaMT", maMT },
-                    { "@SoLuong", soLuong },
-                    { "@GiaBan", giaBan }
+                    { "@SoLuongNhap", soLuong },
+                    { "@DonGiaNhap", giaBan }
                 };
                 return _provider.ExecuteNonQuery(query, parameters) > 0;
             }
             catch (Exception ex)
             {
-                throw new Exception("Lỗi khi cập nhật chi tiết đơn đặt hàng: " + ex.Message);
+                throw new Exception("Lỗi khi cập nhật chi tiết: " + ex.Message);
             }
         }
 
@@ -91,7 +91,7 @@ namespace DAL
         {
             try
             {
-                string query = "SELECT * FROM CHITIETDONDATHANG WHERE MaDonDatHang LIKE @Keyword OR MaMT LIKE @Keyword";
+                string query = "SELECT * FROM CHITIETNHAPHANG WHERE MaPhieu LIKE @Keyword OR MaMT LIKE @Keyword";
                 var parameters = new Dictionary<string, object>
                 {
                     { "@Keyword", "%" + keyword + "%" }
@@ -100,7 +100,7 @@ namespace DAL
             }
             catch (Exception ex)
             {
-                throw new Exception("Lỗi khi tìm kiếm chi tiết đơn đặt hàng: " + ex.Message);
+                throw new Exception("Lỗi khi tìm kiếm: " + ex.Message);
             }
         }
 

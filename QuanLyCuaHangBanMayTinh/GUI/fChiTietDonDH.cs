@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,17 +15,26 @@ namespace GUI
     public partial class fChiTietDonDH : Form
     {
         private ChiTietDonDHBLL _bll;
+        private string _maPhieu = "";
+
         public fChiTietDonDH()
         {
             InitializeComponent();
             _bll = new ChiTietDonDHBLL();
+        }
+
+        public fChiTietDonDH(string maPhieu) : this()
+        {
+            _maPhieu = maPhieu;
+            txtCTDDH_MaDDH.Text = _maPhieu;
+            txtCTDDH_MaDDH.ReadOnly = true;
             LoadDGV();
         }
         private void LoadDGV()
         {
             try
             {
-                DataTable data = _bll.GetAllCTDDH();
+                DataTable data = string.IsNullOrEmpty(_maPhieu) ? _bll.GetAllCTDDH() : _bll.GetCTDDHByMaDon(_maPhieu);
                 dgvCTDDH.DataSource = data;
 
                 if (data.Rows.Count == 0)
@@ -46,10 +55,10 @@ namespace GUI
                 if (e.RowIndex >= 0)
                 {
                     DataGridViewRow row = dgvCTDDH.Rows[e.RowIndex];
-                    txtCTDDH_MaDDH.Text = row.Cells["MaDonDatHang"].Value?.ToString() ?? string.Empty;
+                    txtCTDDH_MaDDH.Text = row.Cells["MaPhieu"].Value?.ToString() ?? string.Empty;
                     txtCTDDH_MaMT.Text = row.Cells["MaMT"].Value?.ToString() ?? string.Empty;
-                    txtCTDDH_SLban.Text = row.Cells["SoLuong"].Value?.ToString() ?? string.Empty;
-                    txtCTDDH_Giaban.Text = row.Cells["GiaBan"].Value?.ToString() ?? string.Empty;
+                    txtCTDDH_SLban.Text = row.Cells["SoLuongNhap"].Value?.ToString() ?? string.Empty;
+                    txtCTDDH_Giaban.Text = row.Cells["DonGiaNhap"].Value?.ToString() ?? string.Empty;
                 }
             }
             catch (Exception ex)

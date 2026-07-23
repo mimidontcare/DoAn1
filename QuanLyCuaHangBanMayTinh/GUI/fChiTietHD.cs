@@ -174,7 +174,7 @@ namespace GUI
                             page.Size(QuestPDF.Helpers.PageSizes.A4);
                             page.Margin(2, QuestPDF.Infrastructure.Unit.Centimetre);
                             page.PageColor(QuestPDF.Helpers.Colors.White);
-                            page.DefaultTextStyle(x => x.FontSize(12));
+                            page.DefaultTextStyle(x => x.FontSize(12).FontFamily("Arial"));
 
                             page.Header().Element(compose => 
                             {

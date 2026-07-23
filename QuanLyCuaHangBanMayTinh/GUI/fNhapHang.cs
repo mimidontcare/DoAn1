@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,6 +17,7 @@ namespace GUI
         public fNhapHang()
         {
             InitializeComponent();
+            txtNHMa.ReadOnly = true;
             _bll = new NhapHangBLL();
             LoadDGV();
         }
@@ -87,12 +88,11 @@ namespace GUI
         {
             try
             {
-                // Tạo và hiển thị form trang chủ
-                fTrangChu fTrangChu = new fTrangChu();
-                fTrangChu.Show();
-
-                // Đóng form hiện tại
-                this.Close();
+                this.Hide();
+                if (this.Owner != null)
+                {
+                    this.Owner.Show();
+                }
             }
             catch (Exception ex)
             {
@@ -269,9 +269,14 @@ namespace GUI
 
         private void btnNH_CTDNH_Click(object sender, EventArgs e)
         {
-            fChiTietDonDH fChiTietDonDH = new fChiTietDonDH();
+            string maPhieu = txtNHMa.Text;
+            if (string.IsNullOrWhiteSpace(maPhieu))
+            {
+                MessageBox.Show("Vui lòng chọn một phiếu nhập trên danh sách để xem chi tiết!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            fChiTietDonDH fChiTietDonDH = new fChiTietDonDH(maPhieu);
             fChiTietDonDH.ShowDialog();
-            this.Close();
         }
 
         private void btnNHHuy_Click(object sender, EventArgs e)

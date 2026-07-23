@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,7 +20,8 @@ namespace GUI
         private void btn_Nhanvien_Click(object sender, EventArgs e)
         {
             fNhanVien frm = new fNhanVien();
-            frm.FormClosed += (s, args) => this.Close();
+            frm.FormClosed += (s, args) => this.Show();
+            frm.Owner = this;
             frm.Show();
             this.Hide();
         }
@@ -28,7 +29,8 @@ namespace GUI
         private void btn_Khachhang_Click(object sender, EventArgs e)
         {
             fKhachHang frm = new fKhachHang();
-            frm.FormClosed += (s, args) => this.Close();
+            frm.FormClosed += (s, args) => this.Show();
+            frm.Owner = this;
             frm.Show();
             this.Hide();
         }
@@ -36,7 +38,8 @@ namespace GUI
         private void btn_Thietbi_Click(object sender, EventArgs e)
         {
             fSanPham frm = new fSanPham();
-            frm.FormClosed += (s, args) => this.Close();
+            frm.FormClosed += (s, args) => this.Show();
+            frm.Owner = this;
             frm.Show();
             this.Hide();
         }
@@ -44,7 +47,8 @@ namespace GUI
         private void btn_NhaCC_Click(object sender, EventArgs e)
         {
             fNhaCC frm = new fNhaCC();
-            frm.FormClosed += (s, args) => this.Close();
+            frm.FormClosed += (s, args) => this.Show();
+            frm.Owner = this;
             frm.Show();
             this.Hide();
         }
@@ -52,7 +56,8 @@ namespace GUI
         private void btn_Banghang_Click(object sender, EventArgs e)
         {
             fHoaDon frm = new fHoaDon();
-            frm.FormClosed += (s, args) => this.Close();
+            frm.FormClosed += (s, args) => this.Show();
+            frm.Owner = this;
             frm.Show();
             this.Hide();
         }
@@ -60,7 +65,8 @@ namespace GUI
         private void btn_NhanHang_Click(object sender, EventArgs e)
         {
             fNhapHang frm = new fNhapHang();
-            frm.FormClosed += (s, args) => this.Close();
+            frm.FormClosed += (s, args) => this.Show();
+            frm.Owner = this;
             frm.Show();
             this.Hide();
         }

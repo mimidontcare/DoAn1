@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace DAL
 {
@@ -11,7 +11,7 @@ namespace DAL
 
         public DataProvider()
         {
-            _connectionString = ConfigurationManager.ConnectionStrings["QL_DoAn1"].ConnectionString;
+            _connectionString = ConfigurationManager.ConnectionStrings["ql_storecomputer"].ConnectionString;
         }
 
         // Thực thi câu truy vấn trả về kết quả (SELECT)
@@ -19,10 +19,10 @@ namespace DAL
         {
             DataTable dataTable = new DataTable();
 
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     if (parameters != null)
                     {
@@ -31,7 +31,7 @@ namespace DAL
                             command.Parameters.AddWithValue(parameter.Key, parameter.Value);
                         }
                     }
-                    using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                    using (MySqlDataAdapter adapter = new MySqlDataAdapter(command))
                     {
                         adapter.Fill(dataTable);
                     }
@@ -46,10 +46,10 @@ namespace DAL
         {
             int rowsAffected = 0;
 
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     if (parameters != null)
                     {
@@ -70,10 +70,10 @@ namespace DAL
         {
             object result = null;
 
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     if (parameters != null)
                     {

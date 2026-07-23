@@ -34,7 +34,7 @@ namespace BLL
         {
             try
             {
-                string query = "SELECT * FROM CHITIETDONDATHANG WHERE MaDonDatHang = @MaDon";
+                string query = "SELECT * FROM CHITIETNHAPHANG WHERE MaPhieu = @MaDon";
                 var parameters = new Dictionary<string, object>
                 {
                     { "@MaDon", maDon }
@@ -95,7 +95,7 @@ namespace BLL
                     {
                         if (row["MaMT"].ToString() == maMT)
                         {
-                            qty = Convert.ToInt32(row["SoLuong"]);
+                            qty = Convert.ToInt32(row["SoLuongNhap"]);
                             break;
                         }
                     }
@@ -139,7 +139,7 @@ namespace BLL
                     {
                         if (row["MaMT"].ToString() == maMT)
                         {
-                            oldQty = Convert.ToInt32(row["SoLuong"]);
+                            oldQty = Convert.ToInt32(row["SoLuongNhap"]);
                             break;
                         }
                     }

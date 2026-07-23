@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -52,9 +52,11 @@ namespace GUI
 
         private void btnMT_Back_Click(object sender, EventArgs e)
         {
-            fTrangChu trangChuForm = new fTrangChu();
-            trangChuForm.Show();
-            this.Close();
+            this.Hide();
+            if (this.Owner != null)
+            {
+                this.Owner.Show();
+            }
         }
 
         private void btnMayThem_Click(object sender, EventArgs e)

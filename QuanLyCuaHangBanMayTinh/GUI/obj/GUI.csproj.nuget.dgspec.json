@@ -105,6 +105,10 @@
       "frameworks": {
         "net472": {
           "dependencies": {
+            "MySql.Data": {
+              "target": "Package",
+              "version": "[9.7.0, )"
+            },
             "QuestPDF": {
               "target": "Package",
               "version": "[2023.12.6, )"

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -26,11 +26,22 @@ namespace GUI
 
             if (ValidateLogin(userName, passWord))
             {
-                if (accountBLL.CheckUser(userName, passWord))
+                try
                 {
-                    fTrangChu frm = new fTrangChu();
-                    frm.Show();
-                    this.Hide();
+                    if (accountBLL.CheckUser(userName, passWord))
+                    {
+                        fTrangChu frm = new fTrangChu();
+                        frm.Show();
+                        this.Hide();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Tên đăng nhập hoặc mật khẩu không chính xác!", "Đăng nhập thất bại", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi kết nối cơ sở dữ liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
