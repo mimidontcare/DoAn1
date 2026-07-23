@@ -9,3 +9,14 @@ F:\Project1\QuanLyCuaHangBanMayTinh\BLL\bin\Debug\Entities.pdb
 F:\Project1\QuanLyCuaHangBanMayTinh\BLL\obj\Debug\BLL.csproj.Up2Date
 F:\Project1\QuanLyCuaHangBanMayTinh\BLL\obj\Debug\BLL.dll
 F:\Project1\QuanLyCuaHangBanMayTinh\BLL\obj\Debug\BLL.pdb
+f:\WINFORM\Project1\QuanLyCuaHangBanMayTinh\BLL\bin\Debug\BLL.dll
+f:\WINFORM\Project1\QuanLyCuaHangBanMayTinh\BLL\bin\Debug\BLL.pdb
+f:\WINFORM\Project1\QuanLyCuaHangBanMayTinh\BLL\bin\Debug\DAL.dll
+f:\WINFORM\Project1\QuanLyCuaHangBanMayTinh\BLL\bin\Debug\Entities.dll
+f:\WINFORM\Project1\QuanLyCuaHangBanMayTinh\BLL\bin\Debug\DAL.pdb
+f:\WINFORM\Project1\QuanLyCuaHangBanMayTinh\BLL\bin\Debug\Entities.pdb
+f:\WINFORM\Project1\QuanLyCuaHangBanMayTinh\BLL\obj\Debug\BLL.csproj.AssemblyReference.cache
+f:\WINFORM\Project1\QuanLyCuaHangBanMayTinh\BLL\obj\Debug\BLL.csproj.CoreCompileInputs.cache
+f:\WINFORM\Project1\QuanLyCuaHangBanMayTinh\BLL\obj\Debug\BLL.csproj.Up2Date
+f:\WINFORM\Project1\QuanLyCuaHangBanMayTinh\BLL\obj\Debug\BLL.dll
+f:\WINFORM\Project1\QuanLyCuaHangBanMayTinh\BLL\obj\Debug\BLL.pdb

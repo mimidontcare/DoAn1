@@ -7,3 +7,12 @@ F:\Project1\QuanLyCuaHangBanMayTinh\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.c
 F:\Project1\QuanLyCuaHangBanMayTinh\DAL\obj\Debug\DAL.csproj.Up2Date
 F:\Project1\QuanLyCuaHangBanMayTinh\DAL\obj\Debug\DAL.dll
 F:\Project1\QuanLyCuaHangBanMayTinh\DAL\obj\Debug\DAL.pdb
+f:\WINFORM\Project1\QuanLyCuaHangBanMayTinh\DAL\bin\Debug\DAL.dll
+f:\WINFORM\Project1\QuanLyCuaHangBanMayTinh\DAL\bin\Debug\DAL.pdb
+f:\WINFORM\Project1\QuanLyCuaHangBanMayTinh\DAL\bin\Debug\Entities.dll
+f:\WINFORM\Project1\QuanLyCuaHangBanMayTinh\DAL\bin\Debug\Entities.pdb
+f:\WINFORM\Project1\QuanLyCuaHangBanMayTinh\DAL\obj\Debug\DAL.csproj.AssemblyReference.cache
+f:\WINFORM\Project1\QuanLyCuaHangBanMayTinh\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
+f:\WINFORM\Project1\QuanLyCuaHangBanMayTinh\DAL\obj\Debug\DAL.csproj.Up2Date
+f:\WINFORM\Project1\QuanLyCuaHangBanMayTinh\DAL\obj\Debug\DAL.dll
+f:\WINFORM\Project1\QuanLyCuaHangBanMayTinh\DAL\obj\Debug\DAL.pdb

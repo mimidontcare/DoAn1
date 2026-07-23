@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Entities;
 using BLL;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
 
 namespace GUI
 {
@@ -150,16 +153,99 @@ namespace GUI
         {
             if (txtCTHD_MaHD.Text != string.Empty)
             {
-                InHoaDon report = new InHoaDon();
+                try
+                {
+                    QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+                    string maHD = txtCTHD_MaHD.Text;
+                    DataTable reportData = _bll.GetCTHDByID(maHD);
 
-                DataTable reportData = _bll.GetCTHDByID(txtCTHD_MaHD.Text);
+                    if (reportData == null || reportData.Rows.Count == 0)
+                    {
+                        MessageBox.Show("Không có dữ liệu cho hóa đơn này!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
 
-                report.SetDataSource(reportData);
+                    string filePath = $"HoaDon_{maHD}_{DateTime.Now:yyyyMMddHHmmss}.pdf";
 
-                fXuatHoaDon reportViewer = new fXuatHoaDon();
-                reportViewer.crystalReportViewer1.ReportSource = report;
+                    QuestPDF.Fluent.Document.Create(container =>
+                    {
+                        container.Page(page =>
+                        {
+                            page.Size(QuestPDF.Helpers.PageSizes.A4);
+                            page.Margin(2, QuestPDF.Infrastructure.Unit.Centimetre);
+                            page.PageColor(QuestPDF.Helpers.Colors.White);
+                            page.DefaultTextStyle(x => x.FontSize(12));
 
-                reportViewer.ShowDialog();
+                            page.Header().Element(compose => 
+                            {
+                                compose.Column(col => 
+                                {
+                                    col.Item().Text("CỬA HÀNG BÁN MÁY TÍNH").FontSize(20).SemiBold().FontColor(QuestPDF.Helpers.Colors.Blue.Darken2);
+                                    col.Item().Text($"HÓA ĐƠN BÁN HÀNG - {maHD}").FontSize(16).SemiBold();
+                                    col.Item().Text($"Ngày in: {DateTime.Now:dd/MM/yyyy HH:mm}");
+                                });
+                            });
+
+                            page.Content().PaddingVertical(1, QuestPDF.Infrastructure.Unit.Centimetre).Column(col =>
+                            {
+                                col.Item().Table(table =>
+                                {
+                                    table.ColumnsDefinition(columns =>
+                                    {
+                                        columns.ConstantColumn(50); // STT
+                                        columns.RelativeColumn();   // MaMT
+                                        columns.RelativeColumn();   // SL
+                                        columns.RelativeColumn();   // Gia
+                                        columns.RelativeColumn();   // ThanhTien
+                                    });
+
+                                    table.Header(header =>
+                                    {
+                                        header.Cell().Text("STT").SemiBold();
+                                        header.Cell().Text("Mã Máy Tính").SemiBold();
+                                        header.Cell().Text("Số Lượng").SemiBold();
+                                        header.Cell().Text("Giá Bán").SemiBold();
+                                        header.Cell().Text("Thành Tiền").SemiBold();
+                                    });
+
+                                    decimal total = 0;
+                                    for (int i = 0; i < reportData.Rows.Count; i++)
+                                    {
+                                        var row = reportData.Rows[i];
+                                        string maMT = row["MaMT"].ToString();
+                                        int sl = Convert.ToInt32(row["SLBan"]);
+                                        decimal gia = Convert.ToDecimal(row["GiaBan"]);
+                                        decimal thanhTien = sl * gia;
+                                        total += thanhTien;
+
+                                        table.Cell().Text((i + 1).ToString());
+                                        table.Cell().Text(maMT);
+                                        table.Cell().Text(sl.ToString());
+                                        table.Cell().Text(gia.ToString("N0"));
+                                        table.Cell().Text(thanhTien.ToString("N0"));
+                                    }
+
+                                    col.Item().PaddingTop(10).AlignRight().Text($"Tổng Cộng: {total:N0} VND").FontSize(14).SemiBold();
+                                });
+                            });
+
+                            page.Footer().AlignCenter().Text(x =>
+                            {
+                                x.Span("Trang ");
+                                x.CurrentPageNumber();
+                                x.Span(" / ");
+                                x.TotalPages();
+                            });
+                        });
+                    })
+                    .GeneratePdf(filePath);
+
+                    System.Diagnostics.Process.Start(filePath);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi tạo PDF: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {

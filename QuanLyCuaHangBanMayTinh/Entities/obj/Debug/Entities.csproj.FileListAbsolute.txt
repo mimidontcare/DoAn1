@@ -4,3 +4,9 @@ F:\Project1\QuanLyCuaHangBanMayTinh\Entities\obj\Debug\Entities.csproj.AssemblyR
 F:\Project1\QuanLyCuaHangBanMayTinh\Entities\obj\Debug\Entities.csproj.CoreCompileInputs.cache
 F:\Project1\QuanLyCuaHangBanMayTinh\Entities\obj\Debug\Entities.dll
 F:\Project1\QuanLyCuaHangBanMayTinh\Entities\obj\Debug\Entities.pdb
+f:\WINFORM\Project1\QuanLyCuaHangBanMayTinh\Entities\bin\Debug\Entities.dll
+f:\WINFORM\Project1\QuanLyCuaHangBanMayTinh\Entities\bin\Debug\Entities.pdb
+f:\WINFORM\Project1\QuanLyCuaHangBanMayTinh\Entities\obj\Debug\Entities.csproj.AssemblyReference.cache
+f:\WINFORM\Project1\QuanLyCuaHangBanMayTinh\Entities\obj\Debug\Entities.csproj.CoreCompileInputs.cache
+f:\WINFORM\Project1\QuanLyCuaHangBanMayTinh\Entities\obj\Debug\Entities.dll
+f:\WINFORM\Project1\QuanLyCuaHangBanMayTinh\Entities\obj\Debug\Entities.pdb
